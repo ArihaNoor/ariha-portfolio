@@ -23,12 +23,6 @@ const projectsData = [
     image: "/Ecom.png",
   },
   {
-    title: "Quiz",
-    description:
-      "This Quiz Application offers an engaging and interactive experience, seamlessly converting your Figma designs into a functional website. Enjoy secure Google authentication and integrated payment gateways for hassle-free transactions. Elevate your quiz experience with our robust and user-friendly platform.",
-    image: "/Quiz.png",
-  },
-  {
     title: "Proctorial Prism",
     description:
       "Proctorial Prism ensures the future of secure screening with its AI-driven proctoring system. It offers unparalleled assessment integrity, designed for success in education and beyond. Easily monitor candidates, tests, and questions through a comprehensive dashboard. Experience seamless and reliable assessment management with Proctorial Prism.",

@@ -62,8 +62,8 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <button className="bg-black flex items-center text-xl font-bold px-6 py-3 text-white rounded-xl shadow-lg hover:bg-coolBlue-medium hover:text-white transition-all duration-150">
-           <Link href="#contact" className="flex items-center justify-center gap-2">
+          <button className="bg-black flex items-center font-bold px-6 py-3 text-white rounded-xl shadow-lg hover:bg-coolBlue-medium hover:text-white transition-all duration-150">
+           <Link href="#contact" className="flex items-center justify-center text-md md:text-xl gap-2">
            <Image src="/letter.gif" width={35} height={35} className="px-1" alt="Reach Out" />
            Reach Out
            </Link>
@@ -100,9 +100,9 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="my-2">
-              <button className="bg-black flex items-center text-xl font-bold px-6 py-3 text-white rounded-xl shadow-lg hover:bg-coolBlue-medium hover:text-white transition-all duration-150">
-               <Link href="#contact" className="flex justify-center items-center gap-2">
-               <Image src="/letter.gif" width={35} height={35} className="px-1" alt="Reach Out" />
+              <button className="bg-black flex items-center font-bold px-6 py-2 text-white rounded-xl shadow-lg hover:bg-coolBlue-medium hover:text-white transition-all duration-150">
+               <Link href="#contact" className="flex justify-center items-center text-md md:text-xl gap-2">
+               <Image src="/letter.gif" width={35} height={35} className="px-1 hidden" alt="Reach Out" />
                Reach Out
                </Link>
               </button>

@@ -12,14 +12,14 @@ const Hero = () => {
           Enhancing online presence with high-quality, responsive websites that
           connect you with your audience.
         </p>
-        <button className="bg-black flex justify-center items-center gap-2 text-white text-lg py-4 px-8 rounded-xl shadow-lg font-bold">
+        <button className="bg-black flex justify-center  text-sm md:text-xl items-center gap-2 text-white py-2 md:py-4 px-4 md:px-8 rounded-lg md:rounded-xl shadow-lg font-bold">
           <Link
             href="/Ariha Noor (CV).pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="flex justify-center items-center gap-2"
           >
-            <HiClipboardDocumentList className="text-xl" /> My Resume
+            <HiClipboardDocumentList className=" text-sm md:text-xl" /> My Resume
           </Link>
         </button>
       </div>
