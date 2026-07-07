@@ -1,145 +1,136 @@
 "use client";
-import Image from 'next/image';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import Swal from 'sweetalert2';
-import { useState } from 'react';
+import { useState } from "react";
+import Swal from "sweetalert2";
+import { HiArrowUpRight } from "react-icons/hi2";
+import { FaEnvelope, FaPhone, FaLocationDot, FaLinkedin, FaGithub, FaRegCalendarCheck } from "react-icons/fa6";
+import Reveal from "../ui/Reveal";
+import { Asterisk } from "../visuals/Decor";
+
+const details = [
+  { icon: FaEnvelope, label: "Email", value: "dev.ariha0@gmail.com", href: "mailto:dev.ariha0@gmail.com" },
+  { icon: FaPhone, label: "Phone", value: "+92 304 2160150", href: "tel:+923042160150" },
+  { icon: FaLocationDot, label: "Based in", value: "Faisalabad, Pakistan", href: null },
+];
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    projectIdea: '',
-    projectDetails: '',
-  });
+  const [form, setForm] = useState({ name: "", email: "", projectIdea: "", projectDetails: "" });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.id]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, projectIdea, projectDetails } = formData;
-
+    const { name, email, projectIdea, projectDetails } = form;
     if (!name || !email || !projectIdea || !projectDetails) {
       Swal.fire({
-        title: 'Error!',
-        text: 'Please fill in all the fields',
-        icon: 'error',
-        confirmButtonText: 'OK'
+        title: "Almost there!",
+        text: "Please fill in all the fields.",
+        icon: "warning",
+        confirmButtonText: "Got it",
+        confirmButtonColor: "#0C0C0D",
       });
       return;
     }
-
     Swal.fire({
-      title: 'Success!',
-      text: 'Your Details Submitted',
-      icon: 'success',
-      confirmButtonText: 'OK'
-    }).then(() => {
-      setFormData({
-        name: '',
-        email: '',
-        projectIdea: '',
-        projectDetails: '',
-      });
-    });
+      title: "Message sent ✶",
+      text: "Thanks! I'll get back to you very soon.",
+      icon: "success",
+      confirmButtonText: "Great",
+      confirmButtonColor: "#0C0C0D",
+    }).then(() => setForm({ name: "", email: "", projectIdea: "", projectDetails: "" }));
   };
 
+  const inputCls =
+    "w-full rounded-xl border-2 border-ink bg-paper px-4 py-3 text-ink placeholder-ink-mute outline-none transition-all duration-200 focus:bg-paper-warm focus:shadow-hard-sm";
+
   return (
-    <div id='contact' className="w-full py-20 flex flex-col md:flex-row justify-between items-center px-4">
-      <div className="w-full md:w-1/2 p-6 md:p-12 mt-10 md:mt-20 bg-white border-4 border-black shadow-lg md:ml-20">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in touch</h2>
-        <p className="mb-6">I would love to hear from you.</p>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-lg font-semibold" htmlFor="name">First name</label>
-            <input
-              className="w-full px-3 py-2 border border-black"
-              type="text"
-              id="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              placeholder="Name"
-            />
+    <section id="contact" className="relative overflow-hidden py-20 md:py-28">
+      <div className="section-pad grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
+        {/* Left: invite */}
+        <Reveal dir="left">
+          <span className="label">
+            <Asterisk size={13} color="#6B53A8" /> (05) Let&apos;s build
+          </span>
+          <h2 className="display mt-4 text-5xl md:text-7xl">
+            Got an idea?
+            <br />
+            <span className="text-spectrum">Let&apos;s make</span>
+            <br />
+            it real.
+          </h2>
+          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-ink-soft md:text-base">
+            Whether it&apos;s an AI feature, a full product, or a curious &quot;could we…?&quot; — I&apos;d
+            genuinely love to hear it. I&apos;m open to roles, freelance and collaborations.
+          </p>
+
+          <a
+            href="https://calendly.com/dev-ariha0/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary mt-7 inline-flex"
+          >
+            <FaRegCalendarCheck /> Book a 30-min call
+          </a>
+
+          <div className="mt-9 flex flex-col gap-3">
+            {details.map((d) => {
+              const Icon = d.icon;
+              const inner = (
+                <div className="card card-hover flex items-center gap-4 p-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border-2 border-ink bg-spectrum text-ink">
+                    <Icon />
+                  </span>
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-ink-mute">{d.label}</p>
+                    <p className="font-semibold text-ink">{d.value}</p>
+                  </div>
+                </div>
+              );
+              return d.href ? (
+                <a key={d.label} href={d.href}>{inner}</a>
+              ) : (
+                <div key={d.label}>{inner}</div>
+              );
+            })}
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-lg font-semibold" htmlFor="email">Your Email</label>
-            <input
-              className="w-full px-3 py-2 border border-black"
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              placeholder="Email"
-            />
+
+          <div className="mt-6 flex gap-3">
+            <a href="https://www.linkedin.com/in/arihanoor/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink bg-paper-warm text-ink transition-all hover:-translate-y-0.5 hover:bg-ink hover:text-paper">
+              <FaLinkedin size={18} />
+            </a>
+            <a href="https://github.com/ArihaNoor" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink bg-paper-warm text-ink transition-all hover:-translate-y-0.5 hover:bg-ink hover:text-paper">
+              <FaGithub size={18} />
+            </a>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-lg font-semibold" htmlFor="project-idea">Project Idea</label>
-            <input
-              className="w-full px-3 py-2 border border-black"
-              type="text"
-              id="projectIdea"
-              value={formData.projectIdea}
-              onChange={handleChange}
-              required
-              placeholder="Project Idea"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 mb-2 text-lg font-semibold" htmlFor="project-details">Your Project Details</label>
-            <textarea
-              className="w-full px-3 py-2 border border-black"
-              id="projectDetails"
-              rows="4"
-              value={formData.projectDetails}
-              onChange={handleChange}
-              required
-              placeholder="Enter Project Details....."
-            ></textarea>
-          </div>
-          <button type="submit" className="bg-golden text-black px-8 font-bold text-xl py-4 shadow rounded-lg transition duration-200">
-            Submit
-          </button>
-        </form>
+        </Reveal>
+
+        {/* Right: form */}
+        <Reveal dir="right" delay={0.1}>
+          <form onSubmit={handleSubmit} className="card p-6 shadow-hard md:p-8">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="name" className="mb-1.5 block font-mono text-xs font-semibold uppercase tracking-wide text-ink">Name</label>
+                <input id="name" type="text" value={form.name} onChange={handleChange} placeholder="Your name" className={inputCls} />
+              </div>
+              <div>
+                <label htmlFor="email" className="mb-1.5 block font-mono text-xs font-semibold uppercase tracking-wide text-ink">Email</label>
+                <input id="email" type="email" value={form.email} onChange={handleChange} placeholder="you@email.com" className={inputCls} />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label htmlFor="projectIdea" className="mb-1.5 block font-mono text-xs font-semibold uppercase tracking-wide text-ink">Project idea</label>
+              <input id="projectIdea" type="text" value={form.projectIdea} onChange={handleChange} placeholder="What are we building?" className={inputCls} />
+            </div>
+            <div className="mt-4">
+              <label htmlFor="projectDetails" className="mb-1.5 block font-mono text-xs font-semibold uppercase tracking-wide text-ink">Details</label>
+              <textarea id="projectDetails" rows="4" value={form.projectDetails} onChange={handleChange} placeholder="Tell me a little more…" className={`${inputCls} resize-none`} />
+            </div>
+            <button type="submit" className="btn-primary mt-6 w-full">
+              Send message <HiArrowUpRight />
+            </button>
+          </form>
+        </Reveal>
       </div>
-      <div className="w-full md:w-1/3 mt-10 md:mt-0 flex flex-col items-start space-y-6 md:ml-4">
-        <div className="flex items-center space-x-3">
-          <div className="bg-golden p-3 rounded-full">
-            <FaEnvelope className="text-black" />
-          </div>
-          <div>
-            <p className="text-gray-700">Phone</p>
-            <p className="font-semibold">+92 304 2160150</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-3">
-          <div className="bg-golden p-3 rounded-full">
-            <FaPhone className="text-black" />
-          </div>
-          <div>
-            <p className="text-gray-700">Mail</p>
-            <p className="font-semibold">dev.ariha0@gmail.com</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-3">
-          <div className="bg-golden p-3 rounded-full">
-            <FaMapMarkerAlt className="text-black" />
-          </div>
-          <div>
-            <p className="text-gray-700">Reach Me</p>
-            <p className="font-semibold">Faisalabad, Pakistan</p>
-          </div>
-        </div>
-        <div className="flex justify-center items-center pt-4">
-          <Image src="/contact.png" alt="Contact illustration" width={300} height={300} />
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
 

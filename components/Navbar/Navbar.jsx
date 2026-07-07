@@ -1,116 +1,107 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { HiArrowUpRight } from "react-icons/hi2";
 import Link from "next/link";
-import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import Logo from "../visuals/Logo";
+import { Asterisk } from "../visuals/Decor";
+
+const links = [
+  { label: "About", href: "#about" },
+  { label: "What I Do", href: "#services" },
+  { label: "Stack", href: "#skills" },
+  { label: "Work", href: "#projects" },
+];
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      if (scrollPosition > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <nav
-      className={`w-full bg-white shadow z-50 transition-all duration-300 ${
-        isScrolled ? "fixed top-0" : ""
-      }`}
+    <motion.header
+      initial={{ y: -70, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-x-0 top-0 z-50 px-3 pt-3 md:px-6 md:pt-4"
     >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/" passHref>
-            <Image className="" src="/Logo.png" alt="Logo" width={120} height={100} />
+      <nav
+        className={`mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-2.5 transition-all duration-300 md:px-5 ${
+          scrolled
+            ? "border-2 border-ink bg-paper-warm shadow-hard-sm"
+            : "border-2 border-transparent bg-paper/60 backdrop-blur-sm"
+        }`}
+      >
+        <Link href="#home" aria-label="Home">
+          <Logo />
         </Link>
-        <div className="hidden lg:flex items-center gap-6">
-          <ul className="flex gap-6 list-none">
-            <li>
-              <Link href="#services" passHref>
-                <p className="text-black cursor-pointer uppercase text-md font-semibold link">
-                  Services
-                </p>
+
+        <ul className="hidden items-center gap-0.5 lg:flex">
+          {links.map((l) => (
+            <li key={l.href}>
+              <Link
+                href={l.href}
+                className="group relative rounded-full px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.12em] text-ink-soft transition-colors hover:text-ink"
+              >
+                {l.label}
+                <span className="absolute inset-x-4 -bottom-0 h-0.5 origin-left scale-x-0 bg-lavender-deep transition-transform duration-300 group-hover:scale-x-100" />
               </Link>
             </li>
-            <li>
-              <Link href="#skills" passHref>
-                <p className="text-black cursor-pointer uppercase text-md font-semibold link">
-                  Skills
-                </p>
-              </Link>
-            </li>
-            <li>
-              <Link href="#projects" passHref>
-                <p className="text-black cursor-pointer uppercase text-md font-semibold link">
-                  Projects
-                </p>
-              </Link>
-            </li>
-          </ul>
-          <button className="bg-black flex items-center font-bold px-6 py-3 text-white rounded-xl shadow-lg hover:bg-coolBlue-medium hover:text-white transition-all duration-150">
-           <Link href="#contact" className="flex items-center justify-center text-md md:text-xl gap-2">
-           <Image src="/letter.gif" width={35} height={35} className="px-1" alt="Reach Out" />
-           Reach Out
-           </Link>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-2">
+          <Asterisk className="hidden animate-spin-slow lg:block" size={18} color="#6B53A8" />
+          <Link href="#contact" className="hidden btn-primary !px-5 !py-2.5 sm:inline-flex">
+            Let&apos;s talk <HiArrowUpRight />
+          </Link>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Toggle menu"
+            className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink bg-paper-warm text-ink lg:hidden"
+          >
+            {open ? <FaTimes size={17} /> : <FaBars size={17} />}
           </button>
         </div>
-        <div className="lg:hidden flex items-center">
-          <button onClick={toggleMenu} className="text-black">
-            {isOpen ? <FaTimes size={28} /> : <FaBars size={28} />}
-          </button>
-        </div>
-      </div>
-      {isOpen && (
-        <div className="lg:hidden bg-white shadow-lg">
-          <ul className="flex flex-col items-center py-4">
-            <li className="my-2">
-              <Link href="#services" passHref>
-                <p className="text-black cursor-pointer uppercase text-md font-semibold link">
-                  Services
-                </p>
-              </Link>
-            </li>
-            <li className="my-2">
-              <Link href="#skills" passHref>
-                <p className="text-black cursor-pointer uppercase text-md font-semibold link">
-                  Skills
-                </p>
-              </Link>
-            </li>
-            <li className="my-2">
-              <Link href="#projects" passHref>
-                <p className="text-black cursor-pointer uppercase text-md font-semibold link">
-                  Projects
-                </p>
-              </Link>
-            </li>
-            <li className="my-2">
-              <button className="bg-black flex items-center font-bold px-6 py-2 text-white rounded-xl shadow-lg hover:bg-coolBlue-medium hover:text-white transition-all duration-150">
-               <Link href="#contact" className="flex justify-center items-center text-md md:text-xl gap-2">
-               <Image src="/letter.gif" width={35} height={35} className="px-1 hidden" alt="Reach Out" />
-               Reach Out
-               </Link>
-              </button>
-            </li>
-          </ul>
-        </div>
-      )}
-    </nav>
+      </nav>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.25 }}
+            className="mx-auto mt-2 max-w-7xl overflow-hidden rounded-2xl border-2 border-ink bg-paper-warm p-4 shadow-hard lg:hidden"
+          >
+            <ul className="flex flex-col gap-1">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className="block rounded-xl px-4 py-3 font-mono text-sm font-medium uppercase tracking-[0.12em] text-ink-soft transition-colors hover:bg-ink hover:text-paper"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+              <li className="pt-1">
+                <Link href="#contact" onClick={() => setOpen(false)} className="btn-primary w-full">
+                  Let&apos;s talk <HiArrowUpRight />
+                </Link>
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 };
 
